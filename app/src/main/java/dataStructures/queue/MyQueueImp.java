@@ -9,7 +9,7 @@ public class MyQueueImp<T> implements MyQueue<T>
     private Stack<T> stack2;
 
     /**
-     * A two stack implementation of a First In Last Out queue
+     * A two stack implementation of a First In First Out queue
      */
     public MyQueueImp()
     {
@@ -24,7 +24,7 @@ public class MyQueueImp<T> implements MyQueue<T>
     @Override
     public void enqueue(T element)
     {
-
+        stack1.push(element);
     }
 
     /**
@@ -35,7 +35,15 @@ public class MyQueueImp<T> implements MyQueue<T>
     @Override
     public T dequeue()
     {
-        return null;
+        if(stack1.isEmpty() && stack2.isEmpty()){
+            throw new RuntimeException();
+        }
+
+        if(stack2.isEmpty()){
+            transferStacks();
+        }
+
+        return stack2.pop();
     }
 
     /**
@@ -43,6 +51,9 @@ public class MyQueueImp<T> implements MyQueue<T>
      */
     private void transferStacks()
     {
+        while(!stack1.isEmpty()) {
+            stack2.push(stack1.pop());
+        }
 
     }
 
@@ -53,7 +64,10 @@ public class MyQueueImp<T> implements MyQueue<T>
     @Override
     public T first()
     {
-        return null;
+        if(stack2.isEmpty()){
+            transferStacks();
+        }
+        return stack2.peek();
     }
 
     /**
@@ -62,7 +76,7 @@ public class MyQueueImp<T> implements MyQueue<T>
     @Override
     public int size()
     {
-        return -1;
+        return stack1.size() + stack2.size();
     }
 
     /**
@@ -70,7 +84,5 @@ public class MyQueueImp<T> implements MyQueue<T>
      */
     @Override
     public boolean isEmpty()
-    {
-        return false;
-    }
+    { return size() == 0; }
 }
