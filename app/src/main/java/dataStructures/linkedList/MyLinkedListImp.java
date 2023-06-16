@@ -9,6 +9,8 @@ public class MyLinkedListImp<E> implements MyLinkedList<E>
     // TODO: You may need to add some field variables ...
     // `head` a Node where the start of the LinkedList is
     // `size` a way to keep track of the size
+    Node<E> root;
+    int size;
 
     /**
      * Add an element to the end of the linked list
@@ -18,6 +20,18 @@ public class MyLinkedListImp<E> implements MyLinkedList<E>
     public void add(E element)
     {
         // TODO: Your code here, implement me first!
+        // create root node first - check if first element == null
+        if(root == null) {
+            root = new Node<>(element);
+        }
+        else{
+            Node<E> currentNode = root;
+            while(currentNode.hasNext() == true){
+                currentNode = currentNode.next;
+            }
+            currentNode.next = new Node<>(element);
+        }
+        size++;
     }
 
     /**
@@ -27,7 +41,7 @@ public class MyLinkedListImp<E> implements MyLinkedList<E>
     public int size()
     {
         // TODO: Your code here, implement me second.
-        return 0;
+        return size;
     }
 
     /**
@@ -37,7 +51,7 @@ public class MyLinkedListImp<E> implements MyLinkedList<E>
     public boolean isEmpty()
     {
         // TODO: Your code here, implement me third.
-        return false;
+        return (root == null);
     }
 
     /**
@@ -49,7 +63,15 @@ public class MyLinkedListImp<E> implements MyLinkedList<E>
     public E get(int index)
     {
         // TODO: Your code here, implement me fourth.
-        return null;
+        int counter = 0;
+        Node<E> currentNode = root;
+
+        while(counter != index && currentNode.hasNext() == true){
+            currentNode = currentNode.next;
+            counter+=1;
+        }
+
+        return currentNode.value;
     }
 
     /**
@@ -60,6 +82,28 @@ public class MyLinkedListImp<E> implements MyLinkedList<E>
     public void remove(int index)
     {
         // TODO: Your code here, implement me last.
+
+        int counter = 1;
+        Node<E> currentNode = root.next;
+        Node<E> previousNode = root;
+
+        // if index = 0
+        if(index == 0){
+            root = root.next;
+            size--;
+            return;
+        }
+
+        while(counter != index && currentNode.hasNext() == true){
+            previousNode = currentNode;
+            currentNode = currentNode.next;
+            counter +=1;
+        }
+
+        previousNode.next = currentNode.next;
+
+        size--;
+
     }
 
     /**
@@ -70,6 +114,24 @@ public class MyLinkedListImp<E> implements MyLinkedList<E>
     public void remove(E element)
     {
         // TODO: Your code here, implement me last.
+        Node<E> currentNode = root.next;
+        Node<E> previousNode = root;
+
+        if(element == root.value){
+            root = root.next;
+            size--;
+            return;
+        }
+
+        while(currentNode.value != element && currentNode.hasNext()){
+            previousNode = currentNode;
+            currentNode = currentNode.next;
+        }
+
+        previousNode.next = currentNode.next;
+
+        size--;
+
     }
 }
 
