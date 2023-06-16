@@ -6,6 +6,7 @@ import dataStructures.linkedList.MyLinkedListImp;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.Random;
 
 public class MyLinkedListTest
 {
@@ -16,6 +17,7 @@ public class MyLinkedListTest
         {
             list.add(i);
         }
+        assertEquals(1000, list.size());
     }
 
     @Test void testGet()
@@ -34,6 +36,19 @@ public class MyLinkedListTest
     {
         MyLinkedList<Integer> list = new MyLinkedListImp<>();
         assertEquals(0, list.size());
+    }
+
+    @Test void testIsEmpty()
+    {
+        MyLinkedList<Integer> list = new MyLinkedListImp<>();
+        assertTrue(list.isEmpty());
+
+        for(int i = 0; i < 1000; i++)
+        {
+            list.add(i);
+        }
+        assertFalse(list.isEmpty());
+
     }
 
     @Test void testSize_gt0()
@@ -109,5 +124,27 @@ public class MyLinkedListTest
         assertEquals(999, list.size());
         assertEquals(499, list.get(499));
         assertEquals(501, list.get(500));
+    }
+
+    @Test void testRemoveElement()
+    {
+        Random rand = new Random();
+
+        MyLinkedList<Double> list = new MyLinkedListImp<>();
+        for(int i = 0; i < 1000; i++)
+        {
+            list.add(rand.nextDouble());
+        }
+
+        Double element = list.get(0);
+
+        list.remove(element);
+
+        assertEquals(999, list.size());
+
+        Double element2 = list.get(0);
+
+        assertNotSame(element, element2);
+
     }
 }

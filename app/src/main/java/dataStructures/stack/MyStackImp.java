@@ -4,6 +4,7 @@ public class MyStackImp<T> implements MyStack<T>
 {
 
     private T[] list;
+    private int lastItemPointer = -1;
 
     /**
      * Constructor that creates and initialises the object
@@ -13,12 +14,32 @@ public class MyStackImp<T> implements MyStack<T>
         list = (T[]) new Object[4];
     }
 
+    public T[] recreateList() {
+
+        T[] newList = (T[]) new Object[lastItemPointer+2];
+
+        for(int i=0; i<=lastItemPointer; i++) {
+            newList[i] = list[i];
+        }
+        return newList;
+    }
+
     /**
      * Push a new element onto the top of the stack
      * @param element
      */
     @Override
     public void push(T element) {
+
+        //check size list against lastItemPointer
+        //if pointer = size-1, need to recreate list
+        //else add it to top
+        if(lastItemPointer == list.length-1){
+            list = recreateList();
+        }
+
+        lastItemPointer +=1;
+        list[lastItemPointer] = element;
 
     }
 
@@ -30,7 +51,15 @@ public class MyStackImp<T> implements MyStack<T>
     @Override
     public T pop()
     {
-        return null;
+        //check if the stack is empty
+        if(lastItemPointer == -1){
+            throw new RuntimeException();
+        }
+
+        T lastElement = list[lastItemPointer];
+        lastItemPointer -=1;
+
+        return lastElement;
     }
 
     /**
@@ -41,7 +70,12 @@ public class MyStackImp<T> implements MyStack<T>
     @Override
     public T peek()
     {
-        return null;
+        //check whether the stack is empty
+        if(lastItemPointer == -1){
+            throw new RuntimeException();
+        }
+
+        return list[lastItemPointer];
     }
 
     /**
@@ -61,6 +95,9 @@ public class MyStackImp<T> implements MyStack<T>
     @Override
     public boolean isEmpty()
     {
+        if(lastItemPointer == -1){
+            return true;
+        }
         return false;
     }
 }
