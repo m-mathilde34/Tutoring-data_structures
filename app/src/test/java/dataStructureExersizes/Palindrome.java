@@ -15,6 +15,14 @@ public class Palindrome {
         assertTrue(palindromeResult);
     }
 
+    @Test void testTruePairPalindrome()
+    {
+        String text = "abba";
+        boolean palindromeResult = PalindromeExersize.isPalindrome(text);
+
+        assertTrue(palindromeResult);
+    }
+
     @Test void testTruePalindromeHard()
     {
         String text = "a man, a plan, a canal: Panama!";

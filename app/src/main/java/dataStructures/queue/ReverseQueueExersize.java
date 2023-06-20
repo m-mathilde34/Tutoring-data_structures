@@ -1,5 +1,7 @@
 package dataStructures.queue;
 
+import java.util.Stack;
+
 public class ReverseQueueExersize {
     /*
     This file provides an opportunity to practice using the Queue implementation.
@@ -11,7 +13,18 @@ public class ReverseQueueExersize {
 
     public static <T> MyQueue<T> reverseQueue(MyQueue<T> queue)
     {
-        // CODE HERE
-        return null;
+        Stack<T> myStack = new Stack<>();
+
+        // Empty queue in the stack following Queue's FIFO.
+        while(!queue.isEmpty()){
+            myStack.push(queue.dequeue());
+        }
+
+        // Reverse the queue using stack's FILO
+        while(!myStack.isEmpty()){
+            queue.enqueue(myStack.pop());
+        }
+
+        return queue;
     }
 }
