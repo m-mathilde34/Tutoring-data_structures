@@ -6,11 +6,11 @@ package dataStructures.linkedList;
  */
 public class MyLinkedListImp<E> implements MyLinkedList<E>
 {
-    // TODO: You may need to add some field variables ...
     // `head` a Node where the start of the LinkedList is
     // `size` a way to keep track of the size
     Node<E> root;
     int size;
+
 
     /**
      * Add an element to the end of the linked list
@@ -19,8 +19,7 @@ public class MyLinkedListImp<E> implements MyLinkedList<E>
     @Override
     public void add(E element)
     {
-        // TODO: Your code here, implement me first!
-        // create root node first - check if first element == null
+        // create root node first
         if(root == null) {
             root = new Node<>(element);
         }
@@ -34,15 +33,16 @@ public class MyLinkedListImp<E> implements MyLinkedList<E>
         size++;
     }
 
+
     /**
      * @return the integer number of elements in the list
      */
     @Override
     public int size()
     {
-        // TODO: Your code here, implement me second.
         return size;
     }
+
 
     /**
      * @return true if the list is empty, false if the list contains any elements
@@ -50,9 +50,9 @@ public class MyLinkedListImp<E> implements MyLinkedList<E>
     @Override
     public boolean isEmpty()
     {
-        // TODO: Your code here, implement me third.
         return (root == null);
     }
+
 
     /**
      * Get an element from the list at the point index
@@ -62,7 +62,6 @@ public class MyLinkedListImp<E> implements MyLinkedList<E>
     @Override
     public E get(int index)
     {
-        // TODO: Your code here, implement me fourth.
         int counter = 0;
         Node<E> currentNode = root;
 
@@ -74,6 +73,7 @@ public class MyLinkedListImp<E> implements MyLinkedList<E>
         return currentNode.value;
     }
 
+
     /**
      * Remove the element at the index, filling the gap left by the removal
      * @param index a non-negative index between zero and the size of the list minus 1
@@ -81,8 +81,6 @@ public class MyLinkedListImp<E> implements MyLinkedList<E>
     @Override
     public void remove(int index)
     {
-        // TODO: Your code here, implement me last.
-
         int counter = 1;
         Node<E> currentNode = root.next;
         Node<E> previousNode = root;
@@ -103,8 +101,8 @@ public class MyLinkedListImp<E> implements MyLinkedList<E>
         previousNode.next = currentNode.next;
 
         size--;
-
     }
+
 
     /**
      * Remove the element from the list (compared by element content)
@@ -113,7 +111,6 @@ public class MyLinkedListImp<E> implements MyLinkedList<E>
     @Override
     public void remove(E element)
     {
-        // TODO: Your code here, implement me last.
         Node<E> currentNode = root.next;
         Node<E> previousNode = root;
 
@@ -131,7 +128,6 @@ public class MyLinkedListImp<E> implements MyLinkedList<E>
         previousNode.next = currentNode.next;
 
         size--;
-
     }
 }
 
