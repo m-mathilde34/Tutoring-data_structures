@@ -95,7 +95,7 @@ public class MyHashMapImp<K, V> implements MyHashMap<K, V>
     @Override
     public boolean contains(K key)
     {
-        return false;
+        return (get(key) != null);
     }
 
 
