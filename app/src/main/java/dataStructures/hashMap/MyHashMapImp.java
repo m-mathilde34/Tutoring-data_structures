@@ -42,7 +42,7 @@ public class MyHashMapImp<K, V> implements MyHashMap<K, V>
     public void put(K key, V value)
     {
 
-        // calculate # using HashCode() inbuilt method
+        // calculate the hash using HashCode() inbuilt method
         int hash = Math.abs(key.hashCode());
 
         // check is a resize is needed
@@ -75,15 +75,26 @@ public class MyHashMapImp<K, V> implements MyHashMap<K, V>
     @Override
     public V get(K key)
     {
-        // TODO Add your code here, implement me third!
-        return null;
+        // find the key's hash
+        int hash = Math.abs(key.hashCode());
+        HashNode<K, V> node = array[hash];
+
+        if(node.next == null){
+            return node.value;
+        }
+
+        // check for collisions
+        while(node.key != key){
+            node = node.next;
+        }
+
+        return node.value;
     }
 
 
     @Override
     public boolean contains(K key)
     {
-        // TODO Add your code here
         return false;
     }
 
@@ -91,14 +102,13 @@ public class MyHashMapImp<K, V> implements MyHashMap<K, V>
     @Override
     public boolean isEmpty()
     {
-        // TODO Add your code here
-        return false;
+        return (size == 0);
     }
 
 
     @Override public int size()
     {
-        return 0;
+        return size;
     }
 
 
