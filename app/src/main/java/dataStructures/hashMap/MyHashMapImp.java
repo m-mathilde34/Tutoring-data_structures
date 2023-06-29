@@ -84,7 +84,7 @@ public class MyHashMapImp<K, V> implements MyHashMap<K, V>
         }
 
         // check for collisions
-        while(node.key != key){
+        while(!node.key.equals(key)){
             node = node.next;
         }
 
