@@ -114,12 +114,40 @@ public class MyHashMapImp<K, V> implements MyHashMap<K, V>
 
     @Override public boolean remove(K key)
     {
-        return false;
+        // find the key's hash
+        int hash = Math.abs(key.hashCode());
+
+        array[hash] = null;
+        size--;
+
+        return true;
     }
 
 
     @Override public boolean remove(K key, V value)
     {
-        return false;
+        // find the key's hash
+        int hash = Math.abs(key.hashCode());
+
+        HashNode<K, V> previousNode = array[hash];
+        HashNode<K, V> currentNode = previousNode.next;
+
+        if(previousNode.value == value){
+            array[hash] = previousNode.next;
+            size--;
+            return true;
+        }
+
+        // check for collisions
+        while(currentNode.value != value && currentNode.next != null){
+            previousNode = currentNode;
+            currentNode = currentNode.next;
+        }
+
+        previousNode.next = currentNode.next;
+        size--;
+
+        return true;
+
     }
 }
