@@ -9,6 +9,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MyHashMapTest
 {
+    /**
+     * Single input test
+     */
+    @Test void singleInput(){
+
+        MyHashMap<Integer, String> map = new MyHashMapImp<>();
+        map.put(20,"world");
+
+    }
 
     /**
      * Test inserting data into the hashmap with sequential Integer keys
