@@ -1,7 +1,16 @@
 package dataStructures.graph;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashSet;
+
 public class MyGraphImp<E> implements MyGraph<E>
 {
+    //Graph has a list of edges
+    private ArrayList<Edge<E>> edgesList = new ArrayList<>();
+
+    //Graph has a list of vertices
+    private HashSet<E> verticesList = new HashSet<>();
 
     /**
      * Adds a new vertex into the graph with the value {@code value}
@@ -10,7 +19,9 @@ public class MyGraphImp<E> implements MyGraph<E>
      */
     @Override public void addVertex(E value)
     {
-
+        if(!verticesList.contains(value)){
+            verticesList.add(value);
+        }
     }
 
     /**
@@ -21,7 +32,7 @@ public class MyGraphImp<E> implements MyGraph<E>
      */
     @Override public boolean removeVertex(E value)
     {
-        return false;
+        return verticesList.remove(value);
     }
 
 
@@ -37,6 +48,16 @@ public class MyGraphImp<E> implements MyGraph<E>
      */
     @Override public void addEdge(E valueFrom, E valueTo)
     {
+        if(!verticesList.contains(valueFrom)){
+            throw new RuntimeException("valueFrom not found in graph");
+        }
+        if(!verticesList.contains(valueTo)){
+            throw new RuntimeException("valueTo not found in graph");
+        }
+
+        if(!edgesList.contains(new Edge<>(valueFrom, valueTo))){
+            edgesList.add(new Edge<>(valueFrom, valueTo));
+        }
 
     }
 
@@ -49,7 +70,15 @@ public class MyGraphImp<E> implements MyGraph<E>
      */
     @Override public boolean removeEdge(E valueFrom, E valueTo)
     {
+        for(Edge<E> currentEdge: edgesList){
+            if(currentEdge.from.equals(valueFrom) && currentEdge.to.equals(valueTo)){
+                edgesList.remove(currentEdge);
+                return true;
+            }
+        }
+
         return false;
+
     }
 
 
@@ -58,7 +87,7 @@ public class MyGraphImp<E> implements MyGraph<E>
      */
     @Override public int edges()
     {
-        return 0;
+        return edgesList.size();
     }
 
 
@@ -67,7 +96,7 @@ public class MyGraphImp<E> implements MyGraph<E>
      */
     @Override public int vertices()
     {
-        return 0;
+        return verticesList.size();
     }
 
     /**
