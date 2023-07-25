@@ -51,23 +51,23 @@ public class Dijkstra {
         int currentNode = root;
         int distanceSoFar = 0;
 
-        // loop whilst we have unvisited Vertices
+        //Loop whilst we have unvisited Vertices
         while(!vertexNotVisited.isEmpty()){
 
-            //get the list of the unvisited neighbours
+            //Get the list of the unvisited neighbours
             ArrayList<Integer> unvisitedNeighbours = getUnvisitedNeighbours(currentNode);
 
-            //update table
+            //Update table
             updateTables(currentNode, unvisitedNeighbours, distanceSoFar);
 
-            //update our Visited and NotVisited lists
+            //Update our Visited and NotVisited lists
             vertexVisited.add(currentNode);
             vertexNotVisited.remove((Integer) currentNode);
 
-            //move to new node
+            //Move to new node
             currentNode = nextUnvisitedVertex(currentNode);
 
-            //update our distanceSoFar variable
+            //Update our distanceSoFar variable
             if(currentNode != -1){
                 distanceSoFar = distances[currentNode];
             }
@@ -80,7 +80,7 @@ public class Dijkstra {
     public ArrayList<Integer> getUnvisitedNeighbours(int currentNode){
         ArrayList<Integer> unvisitedNeighbours = new ArrayList<>();
 
-        //if a node is a neighbour and is not visited, add it to the list of unvisited neighbours.
+        //If a node is a neighbour and is not visited, add it to the list of unvisited neighbours.
         for(int i=0; i< graph.length; i++){
             if(graph[i][currentNode] != 0 && vertexNotVisited.contains(i) == true){
                 unvisitedNeighbours.add(i);
@@ -93,17 +93,17 @@ public class Dijkstra {
 
     public void updateTables(int currentNode, ArrayList<Integer> unvisitedNeighbours, int distanceSoFar){
 
-        //loop through the unvisited neighbours.
+        //Loop through the unvisited neighbours.
         for(int i=0; i<unvisitedNeighbours.size(); i++){
             Integer neighbour = unvisitedNeighbours.get(i);
-            int newDistance = distanceSoFar + graph[currentNode][neighbour]; //calculate the distance to the new node
-                                                                             //by keeping track of previous distance
-                                                                             //and adding the new one to it
+            int newDistance = distanceSoFar + graph[currentNode][neighbour]; //Calculate the distance to the new node
+                                                                             //By keeping track of previous distance
+                                                                             //And adding the new one to it
 
-            //if the new calculated distance is smaller than the one currently stored in our table: update it.
+            //If the new calculated distance is smaller than the one currently stored in our table: update it.
             if(newDistance < distances[neighbour]){
-                distances[neighbour] = newDistance; //update with our new distance.
-                previousNode[neighbour] = currentNode; //update previousNode table with our new and closer PreviousNode.
+                distances[neighbour] = newDistance; //Update distances table with our new distance.
+                previousNode[neighbour] = currentNode; //Update previousNode table with our new and closer PreviousNode.
             }
         }
     }
@@ -117,10 +117,11 @@ public class Dijkstra {
         //select the shortest distance in our table (skipping our root node)
         for(int j=0; j<distances.length; j++){
 
-            //loop through our distances and find the shortest path to the next unvisited node. Set it as the new node.
+            // Loop through our distances to find the shortest path to the next unvisited node.
+            // Set it as the new node.
             if(vertexNotVisited.contains(j) && distances[j] < smallestDistance && j != currentNode){
-                smallestDistance = distances[j]; //keep track of what the smallest distance to root is.
-                nextUnvisitedVertex = j; //keeps track of which UnvisitedVertex has the smallest distance to root.
+                smallestDistance = distances[j]; //Keep track of what the smallest distance to root is.
+                nextUnvisitedVertex = j; //Keeps track of which UnvisitedVertex has the smallest distance to root.
             }
         }
 
