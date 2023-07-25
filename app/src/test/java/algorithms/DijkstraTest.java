@@ -32,7 +32,7 @@ public class DijkstraTest {
 
         Dijkstra alg = new Dijkstra(graph);
         int[] shortest_dist = alg.findShortestPath(0);
-        assertEquals(shortest_dist, new int[]{0, 4, 12, 19, 21, 11, 9, 8, 14});
+        assertArrayEquals(shortest_dist, new int[]{0, 4, 12, 19, 21, 11, 9, 8, 14});
     }
 
     /**
