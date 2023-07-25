@@ -31,7 +31,10 @@ public class Dijkstra {
         this.graph = graph;
         distances = new int[graph.length];
         previousNode = new int[graph.length];
+
         Arrays.fill(distances, Integer.MAX_VALUE);
+        Arrays.fill(previousNode, -1);
+
         for(int i=0; i<graph.length; i++){
             vertexNotVisited.add(i);
         }
@@ -44,73 +47,84 @@ public class Dijkstra {
     public int[] findShortestPath(int root)
     {
         distances[root] = 0;
+        previousNode[root] = 0;
         int currentNode = root;
-        int smallestDistance = Integer.MAX_VALUE;
-        int smallestDistanceIndex = 0;
         int distanceSoFar = 0;
 
         // loop whilst we have unvisited Vertices
         while(!vertexNotVisited.isEmpty()){
 
+            //get the list of the unvisited neighbours
+            ArrayList<Integer> unvisitedNeighbours = getUnvisitedNeighbours(currentNode);
+
             //update table
-            updateTables(currentNode, distanceSoFar);
+            updateTables(currentNode, unvisitedNeighbours, distanceSoFar);
 
-            //select the shortest distance in our table (skipping our root node)
-            smallestDistanceIndex = findUnvisitedNeighbour(currentNode, smallestDistance, smallestDistanceIndex);
-
-            //keep track of the smallest distance to update table next
-            smallestDistance = distances[smallestDistanceIndex];
-            distanceSoFar += smallestDistance;
-
-            //Put our current node in Visited and remove it from notVisited
+            //update our Visited and NotVisited lists
             vertexVisited.add(currentNode);
-            vertexNotVisited.remove(currentNode);
+            vertexNotVisited.remove((Integer) currentNode);
 
-            //move to our new node
-            currentNode = smallestDistanceIndex;
+            //move to new node
+            currentNode = nextUnvisitedVertex(currentNode);
 
-            //reset smallestDistance
-            smallestDistance = Integer.MAX_VALUE;
+            //update our distanceSoFar variable
+            if(currentNode != -1){
+                distanceSoFar = distances[currentNode];
+            }
 
         }
 
         return distances;
     }
 
+    public ArrayList<Integer> getUnvisitedNeighbours(int currentNode){
+        ArrayList<Integer> unvisitedNeighbours = new ArrayList<>();
 
-    public void updateTables(int currentNode, int distanceSoFar){ //rewrite over old node distance
-
-        //get distances of all unvisited neighbours and update table
-        for(int i=0; i<graph.length; i++){
-
-            //find the distance to the unvisited neighbour
-            if(graph[currentNode][i] != 0 && vertexNotVisited.contains(i)){
-
-                //compared to stored distance in table
-                //if the new distance is smaller than the previously recorded one, update table.
-                if(graph[currentNode][i] < distances[i]){
-                    distances[i] = graph[currentNode][i] + distanceSoFar;
-                    previousNode[i] = currentNode;
-                }
+        //if a node is a neighbour and is not visited, add it to the list of unvisited neighbours.
+        for(int i=0; i< graph.length; i++){
+            if(graph[i][currentNode] != 0 && vertexNotVisited.contains(i) == true){
+                unvisitedNeighbours.add(i);
             }
         }
 
+        return unvisitedNeighbours;
     }
 
 
-    public int findUnvisitedNeighbour(int currentNode, int smallestDistance, int smallestDistanceIndex){
+    public void updateTables(int currentNode, ArrayList<Integer> unvisitedNeighbours, int distanceSoFar){
+
+        //loop through the unvisited neighbours.
+        for(int i=0; i<unvisitedNeighbours.size(); i++){
+            Integer neighbour = unvisitedNeighbours.get(i);
+            int newDistance = distanceSoFar + graph[currentNode][neighbour]; //calculate the distance to the new node
+                                                                             //by keeping track of previous distance
+                                                                             //and adding the new one to it
+
+            //if the new calculated distance is smaller than the one currently stored in our table: update it.
+            if(newDistance < distances[neighbour]){
+                distances[neighbour] = newDistance; //update with our new distance.
+                previousNode[neighbour] = currentNode; //update previousNode table with our new and closer PreviousNode.
+            }
+        }
+    }
+
+
+    public int nextUnvisitedVertex(int currentNode){
+
+        int smallestDistance = Integer.MAX_VALUE;
+        int nextUnvisitedVertex = -1;
 
         //select the shortest distance in our table (skipping our root node)
         for(int j=0; j<distances.length; j++){
 
-            //is node is unvisited, is not the root, update
-            if(vertexNotVisited.contains(j) && distances[j] < smallestDistance && j != currentNode && distances[j] != 0){
-                smallestDistance = distances[j];
-                smallestDistanceIndex = j;
+            //loop through our distances and find the shortest path to the next unvisited node. Set it as the new node.
+            if(vertexNotVisited.contains(j) && distances[j] < smallestDistance && j != currentNode){
+                smallestDistance = distances[j]; //keep track of what the smallest distance to root is.
+                nextUnvisitedVertex = j; //keeps track of which UnvisitedVertex has the smallest distance to root.
             }
         }
 
-        return smallestDistanceIndex;
+        return nextUnvisitedVertex;
     }
 
 
